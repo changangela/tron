@@ -22,7 +22,7 @@ function Snake(x, y, snakeColor) {
         if (!this.dead) {
             fill(snakeColor);
         } else {
-            fill(120)
+            fill(120);
         }
 
         for (var i = 0; i < this.tail.length; ++i) {

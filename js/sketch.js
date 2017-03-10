@@ -17,10 +17,11 @@ function setup() {
         board.push(snakes[i].position);
     }
 
+    fill(255);
 }
 
 function draw() {
-    background(150);
+    background(0);
 
     var deadCount = 0;
     for (var i  = 0; i < NUM_PLAYERS; ++i) {
