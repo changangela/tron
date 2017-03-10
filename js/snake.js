@@ -15,8 +15,6 @@ function Snake(x, y, snakeColor) {
             if (this.position.x < 0 || this.position.x > width / GRID_SIZE - 1 || this.position.y < 0 || this.position.y > height / GRID_SIZE - 1) {
                 this.dead = true;
             }
-            this.position.x = constrain(this.position.x, 0, width / GRID_SIZE - 1);
-            this.position.y = constrain(this.position.y, 0, height / GRID_SIZE - 1);
         }
     }
 
@@ -37,9 +35,12 @@ function Snake(x, y, snakeColor) {
     }
 
     this.checkStatus = function(flag) {
-        for (var i = 0; i < flag.length; i++) {
-            if (this.position.equals(flag[i])) {
-                this.dead = true;
+        if (!this.dead) {
+            for (var i = 0; i < flag.length; i++) {
+                if (this.position.equals(flag[i])) {
+                    this.dead = true;
+                    this.tail.pop();
+                }
             }
         }
     }
