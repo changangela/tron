@@ -7,7 +7,6 @@ var FRAME_RATE = 9;
 var snakes = [];
 var colors = ["red", "blue", "green", "orange"];
 var board = [];
-var gameOver = false;
 
 function setup() {
     createCanvas(CANVAS_X, CANVAS_Y);
