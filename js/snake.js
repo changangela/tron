@@ -1,61 +1,46 @@
 function Snake(x, y, snakeColor) {
-    this.d = new p5.Vector(parseInt(x), parseInt(y));
-    this.v = new p5.Vector(1, 0);
-    this.size = 1;
-    this.tail = [];
-    this.tail.push(this.d);
+    this.position = new p5.Vector(parseInt(x), parseInt(y));
+    this.direction = new p5.Vector(1, 0);
     this.dead = false;
+    this.tail = [];
+    this.tail.push(this.position);
 
     this.update = function() {
-        if (this.dead) {
-            return;
-        }
-
-        // Update tail
-        this.tail.push(this.d);
-        while (this.tail.length > this.size) {
-            this.tail.shift();
-        }
-
         // Update current position
-        this.d = p5.Vector.add(this.d, this.v);
-        this.d.x = constrain(this.d.x, 0, width / GRID_SIZE - 1);
-        this.d.y = constrain(this.d.y, 0, height / GRID_SIZE - 1);
+        if (!this.dead) {
+            this.position = p5.Vector.add(this.position, this.direction);
+
+            this.tail.push(this.position);
+
+            if (this.position.x < 0 || this.position.x > width / GRID_SIZE - 1 || this.position.y < 0 || this.position.y > height / GRID_SIZE - 1) {
+                this.dead = true;
+            }
+            this.position.x = constrain(this.position.x, 0, width / GRID_SIZE - 1);
+            this.position.y = constrain(this.position.y, 0, height / GRID_SIZE - 1);
+        }
     }
 
     this.show = function() {
-        fill(snakeColor);
+        if (!this.dead) {
+            fill(snakeColor);
+        } else {
+            fill(120)
+        }
 
-        for (var i = 0; i < this.size; i++) {
+        for (var i = 0; i < this.tail.length; ++i) {
             rect(this.tail[i].x * GRID_SIZE, this.tail[i].y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
         }
     }
 
     this.face = function(x, y) {
-        this.v.set(x, y);
+        this.direction.set(x, y);
     }
 
-    this.grow = function() {
-        this.size++;
-    }
-
-    this.eats = function(f) {
-        return this.d.equals(f.d);
-    }
-
-    this.checkStatus = function() {
-        if (this.dead == true) {
-            return;
-        }
-
-        for (var i = 0; i < this.size - 1; i++) {
-            if (this.d.equals(this.tail[i])) {
+    this.checkStatus = function(flag) {
+        for (var i = 0; i < flag.length; i++) {
+            if (this.position.equals(flag[i])) {
                 this.dead = true;
             }
-        }
-        
-        if (this.dead == true) {
-            console.log("dead");
         }
     }
 }

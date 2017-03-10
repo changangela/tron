@@ -1,10 +1,11 @@
 var GRID_SIZE = 20;
 var CANVAS_X = 1000;
 var CANVAS_Y = 500;
-var NUM_PLAYERS = 4;
+var NUM_PLAYERS = 2;
 
 var snakes = [];
 var colors = ["red", "blue", "green", "orange"];
+var board = [];
 
 function randomPosition() {
     var x = floor(random(width / GRID_SIZE));
@@ -17,18 +18,19 @@ function setup() {
     frameRate(9);
 
     for (var i = 0; i < NUM_PLAYERS; ++i) {
-        snakes.push(new Snake(CANVAS_X / GRID_SIZE * (0.25 + i * 0.5 / (NUM_PLAYERS - 1)) - 1, CANVAS_Y / GRID_SIZE * 0.50 - 1, colors[i]))
+        snakes.push(new Snake(CANVAS_X / GRID_SIZE * (0.25 + i * 0.5 / (NUM_PLAYERS - 1)) - 1, CANVAS_Y / GRID_SIZE * 0.50 - 1, colors[i]));
+        board.push(snakes[i].position);
     }
 
 }
 
 function draw() {
     background(150);
-
     for (var i  = 0; i < NUM_PLAYERS; ++i) {
-        snakes[i].update();
-        snakes[i].checkStatus();
+        snakes[i].update(board);
+        snakes[i].checkStatus(board);
         snakes[i].show();
+        board.push(snakes[i].position);
     }
 }
 
